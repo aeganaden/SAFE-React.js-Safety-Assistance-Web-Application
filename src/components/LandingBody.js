@@ -351,11 +351,11 @@ export class LandingBody extends Component {
                 <HighlightText color="#8facc9">What is this?</HighlightText>
               </PanelHeaderText>
               <SecondPanelDescription>
-                The proponents chose barangay Paang Bundok to be the benificiary
-                of the application because they see the{' '}
+                The proponents chose Barangay South Daang Hari to be the
+                benificiary of the application because they see the{' '}
                 <HighlightText>need for innovative product</HighlightText>{' '}
                 wherein it can ba utilize as the primary reporting medium within
-                the barangay. Barangay Paang Bundok still uses the manual
+                the barangay. Barangay South Daang Hari still uses the manual
                 approach of recording an accidet, such as manually recording
                 incident reports and as well as blotters, this method may not be
                 effective in responding to emergencies quikly. The proponents

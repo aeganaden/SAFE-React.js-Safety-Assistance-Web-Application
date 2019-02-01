@@ -7,6 +7,7 @@
     "babel-plugin-import": "^1.9.1",
     "chart.js": "^2.7.3",
     "firebase": "^5.5.3",
+    "jspdf": "^1.5.3",
     "moment": "^2.22.2",
     "re-base": "^4.0.0",
     "react": "^16.5.1",
@@ -24,5 +25,6 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "devDependencies": {}
 }
