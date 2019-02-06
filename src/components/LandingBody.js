@@ -28,7 +28,7 @@ from {
 const Panel = styled.div`
   display: flex;
   align-items: center;
-  height: ${(props) => (props.height ? props.height : '80vh')};
+  height: ${(props) => (props.height ? props.height : '')};
   padding: ${(props) => (props.padding ? props.padding : '15%')};
   background-color: ${(props) =>
     props.color ? `${props.color} !important` : 'white'};
@@ -102,6 +102,15 @@ const HowItWorksDescription = styled.div`
 const SecondPanelWrapper = styled.div`
   display: flex;
   flex-direction: row;
+
+  /*  Mobile Devices */
+  @media all and (min-width: 320px) and (max-width: 480px) {
+    display: none;
+  }
+  /* Table Portrait */
+  @media all and (min-width: 768px) and (max-width: 1024px) {
+    display: none;
+  }
 `;
 
 const SecondPanelDescription = styled.p`
@@ -113,6 +122,70 @@ const ThirdPanelWrapper = styled.div`
   width: 100%;
   flex-direction: row;
   justify-content: space-around;
+
+  /*  Mobile Devices */
+  @media all and (min-width: 320px) and (max-width: 480px) {
+    display: none;
+  }
+  /* Table Portrait */
+  @media all and (min-width: 768px) and (max-width: 1024px) {
+    display: none;
+  }
+`;
+
+const FirstPanelWeb = styled.div`
+  /*  Mobile Devices */
+  @media all and (min-width: 320px) and (max-width: 480px) {
+    display: none;
+  }
+  /* Table Portrait */
+  @media all and (min-width: 768px) and (max-width: 1024px) {
+    display: none;
+  }
+`;
+
+const FirstPanelMobile = styled.div`
+  /* Desktop Common Size */
+  @media all and (min-width: 1025px) and (max-width: 1280px) {
+    display: none;
+  }
+  /* Desktop Large Size*/
+  @media all and (min-width: 1281px) {
+    display: none;
+  }
+`;
+
+const SecondPanelMobile = styled.div`
+  /* Desktop Common Size */
+  @media all and (min-width: 1025px) and (max-width: 1280px) {
+    display: none;
+  }
+  /* Desktop Large Size*/
+  @media all and (min-width: 1281px) {
+    display: none;
+  }
+`;
+
+const ThirdPanelMobile = styled.div`
+  /* Desktop Common Size */
+  @media all and (min-width: 1025px) and (max-width: 1280px) {
+    display: none;
+  }
+  /* Desktop Large Size*/
+  @media all and (min-width: 1281px) {
+    display: none;
+  }
+`;
+
+const ThirdPanelStyledBG = styled.div`
+  /* Table Portrait */
+  @media all and (min-width: 768px) and (max-width: 1024px) {
+    display: none;
+  }
+  /*  Mobile Devices */
+  @media all and (min-width: 320px) and (max-width: 480px) {
+    display: none;
+  }
 `;
 
 const firstPanelStyle = {
@@ -278,6 +351,7 @@ export class LandingBody extends Component {
 
   render() {
     const { drawerVisibility, loadingBtn } = this.state;
+
     return (
       <BodyWrapper>
         <BackTop />
@@ -294,7 +368,7 @@ export class LandingBody extends Component {
         />
 
         <Panel style={firstPanelStyle} id="how-it-works">
-          <div>
+          <FirstPanelWeb>
             <PanelHeaderText style={{ marginBottom: '5%' }}>
               <HighlightText color="#7da3f8">How it works</HighlightText>
             </PanelHeaderText>
@@ -341,7 +415,30 @@ export class LandingBody extends Component {
                 </HowItWorksDescription>
               </HowItWorksItem>
             </HowItWorksContentWrapper>
-          </div>
+          </FirstPanelWeb>
+
+          <FirstPanelMobile>
+            <h1>
+              <HighlightText color="#7da3f8">How it works</HighlightText>
+            </h1>
+            <b>
+              <HighlightText color="#b1d7dc">CREATE</HighlightText>
+            </b>
+            <p>
+              Create a report by filling up a report form indicating the type of
+              accident and detailed explanation of the event
+            </p>
+            <br />
+            <b>
+              <HighlightText color="#dcb1b1">SUBMIT</HighlightText>
+            </b>
+            <p>Submit the report</p>
+            <br />
+            <b>
+              <HighlightText color="#c9dcb1">SUCCESS</HighlightText>
+            </b>
+            <p>Your report has now been sent to the barangay officials</p>
+          </FirstPanelMobile>
         </Panel>
 
         <Panel color="#b1d7dc" style={secondPanelStyle} id="about-panel">
@@ -373,8 +470,31 @@ export class LandingBody extends Component {
               <img src={LOGO_PNG} className="logo-png" alt="" />
             </div>
           </SecondPanelWrapper>
+
+          <SecondPanelMobile>
+            <h1>
+              <HighlightText color="#8facc9">What is this?</HighlightText>
+            </h1>
+            <p>
+              The proponents chose Barangay South Daang Hari to be the
+              benificiary of the application because they see the{' '}
+              <HighlightText>need for innovative product</HighlightText> wherein
+              it can ba utilize as the primary reporting medium within the
+              barangay. Barangay South Daang Hari still uses the manual approach
+              of recording an accidet, such as manually recording incident
+              reports and as well as blotters, this method may not be effective
+              in responding to emergencies quikly. The proponents can see that
+              by <HighlightText>applying modern technology</HighlightText> to
+              their system in barangay, the quality of life of the citizens
+              living within the barangay can be enhanced, thus{' '}
+              <HighlightText>
+                {' '}
+                maintaining a much safer barangay.{' '}
+              </HighlightText>
+            </p>
+          </SecondPanelMobile>
         </Panel>
-        <div style={thirdPanelStyle} />
+        <ThirdPanelStyledBG style={thirdPanelStyle} />
         <Panel id="features-panel">
           <ThirdPanelWrapper>
             <div>
@@ -406,11 +526,36 @@ export class LandingBody extends Component {
               </p>
             </div>
           </ThirdPanelWrapper>
+          <ThirdPanelMobile>
+            <h1>
+              <HighlightText color="#9c89d5">Features</HighlightText>
+            </h1>
+            <br />
+            <h3>Realtime Report and Response</h3>
+            <p>
+              • Submit report, view reports, respond to reports. All in
+              real-time. No Delay.
+            </p>
+            <h3>Fast and lightweight Mobile App</h3>
+            <p>
+              • Created with native android application that will guarantee fast
+              and lightweight Application.
+            </p>
+            <h3>Easy to use</h3>
+            <p>
+              • Easy to use User Interface that is Elderly and Non-Techy person
+              Friendly
+            </p>
+            <h3>Secured</h3>
+            <p>
+              • Embedded with security features that will ensure the user's data
+              security.
+            </p>
+          </ThirdPanelMobile>
         </Panel>
 
         <Panel
           color="#b1d7dc"
-          height="50vh"
           padding="5%"
           background={COMMUNITY_SVG}
           id="register-panel"
@@ -429,6 +574,20 @@ export class LandingBody extends Component {
             >
               REGISTER NOW
             </Button>
+            <ThirdPanelMobile>
+              <Button
+                size="large"
+                type="secondary"
+                icon="login"
+                block
+                onClick={() => this.props.history.push('/administrator')}
+                style={{
+                  marginTop: '20px',
+                }}
+              >
+                ADMINISTRATOR
+              </Button>
+            </ThirdPanelMobile>
           </div>
         </Panel>
 

@@ -29,6 +29,10 @@ const StyledDrawer = styled(Drawer)`
     margin-right: auto;
     display: block;
   }
+
+  .ant-drawer-body {
+    background-color: white;
+  }
 `;
 
 class RegistrationDrawer extends Component {
@@ -36,7 +40,12 @@ class RegistrationDrawer extends Component {
     const { birthdayChangeHandler } = this.props;
     birthdayChangeHandler(dateString);
   };
-
+  isMobileDevice = () => {
+    return (
+      typeof window.orientation !== 'undefined' ||
+      navigator.userAgent.indexOf('IEMobile') !== -1
+    );
+  };
   render() {
     const {
       onChangeInput,
@@ -60,11 +69,12 @@ class RegistrationDrawer extends Component {
           </div>
         }
         destroyOnClose
-        placement="right"
         width={500}
+        height="100%"
         onClose={() => onDrawerClose()}
         visible={drawerVisibility}
         closable
+        placement={this.isMobileDevice() ? 'bottom' : 'right'}
       >
         <img src={REGISTER_SVG} className="register-svg" alt="" />
         <Divider>Please fill up the form</Divider>
