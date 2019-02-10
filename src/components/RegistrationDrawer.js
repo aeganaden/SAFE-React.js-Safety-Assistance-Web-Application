@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import base from './common/base';
 
 import {
   Avatar,
@@ -13,6 +14,7 @@ import {
   Divider,
 } from 'antd';
 import REGISTER_SVG from '../assets/vectors/register.svg';
+import NOTALLOWED_SVG from '../assets/vectors/not_allowed.svg';
 
 const InputGroup = Input.Group;
 const StyledDrawer = styled(Drawer)`
@@ -35,6 +37,12 @@ const StyledDrawer = styled(Drawer)`
   }
 `;
 
+const LoadingState = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 class RegistrationDrawer extends Component {
   onChangeHandler = (date, dateString) => {
     const { birthdayChangeHandler } = this.props;
@@ -46,6 +54,14 @@ class RegistrationDrawer extends Component {
       navigator.userAgent.indexOf('IEMobile') !== -1
     );
   };
+
+  componentDidMount() {
+    base.syncState('Settings', {
+      context: this,
+      state: 'settings',
+    });
+  }
+
   render() {
     const {
       onChangeInput,
@@ -56,6 +72,8 @@ class RegistrationDrawer extends Component {
       drawerTitle,
       buttonString,
     } = this.props;
+
+    // const { settings } = this.state;
     return (
       <StyledDrawer
         title={
@@ -76,98 +94,124 @@ class RegistrationDrawer extends Component {
         closable
         placement={this.isMobileDevice() ? 'bottom' : 'right'}
       >
-        <img src={REGISTER_SVG} className="register-svg" alt="" />
-        <Divider>Please fill up the form</Divider>
-        <div className="input-div">
-          <InputGroup>
-            <Col span={12}>
-              <Input
-                placeholder="Enter your First Name"
-                prefix={
-                  <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
-                }
-                name="firstname"
-                onChange={onChangeInput}
-                ref={(node) => (this.firstname = node)}
-              />
-            </Col>
+        {this.state !== null ? (
+          this.state.settings.registration ? (
+            <div>
+              <img src={REGISTER_SVG} className="register-svg" alt="" />
+              <Divider>Please fill up the form</Divider>
+              <div className="input-div">
+                <InputGroup>
+                  <Col span={12}>
+                    <Input
+                      placeholder="Enter your First Name"
+                      prefix={
+                        <Icon
+                          type="user"
+                          style={{ color: 'rgba(0,0,0,.25)' }}
+                        />
+                      }
+                      name="firstname"
+                      onChange={onChangeInput}
+                      ref={(node) => (this.firstname = node)}
+                    />
+                  </Col>
 
-            <Col span={12}>
-              <Input
-                placeholder="Enter your Last Name"
-                name="lastname"
-                onChange={onChangeInput}
-                ref={(node) => (this.lastname = node)}
-              />
-            </Col>
-          </InputGroup>
-        </div>
+                  <Col span={12}>
+                    <Input
+                      placeholder="Enter your Last Name"
+                      name="lastname"
+                      onChange={onChangeInput}
+                      ref={(node) => (this.lastname = node)}
+                    />
+                  </Col>
+                </InputGroup>
+              </div>
 
-        <div className="input-div">
-          <Input
-            placeholder="Enter your Email"
-            prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            name="email"
-            onChange={onChangeInput}
-            ref={(node) => (this.email = node)}
-          />
-        </div>
+              <div className="input-div">
+                <Input
+                  placeholder="Enter your Email"
+                  prefix={
+                    <Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                  name="email"
+                  onChange={onChangeInput}
+                  ref={(node) => (this.email = node)}
+                />
+              </div>
 
-        <div className="input-div">
-          <Input
-            placeholder="Enter Password"
-            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            name="password"
-            type="password"
-            onChange={onChangeInput}
-            ref={(node) => (this.password = node)}
-          />
-        </div>
+              <div className="input-div">
+                <Input
+                  placeholder="Enter Password"
+                  prefix={
+                    <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                  name="password"
+                  type="password"
+                  onChange={onChangeInput}
+                  ref={(node) => (this.password = node)}
+                />
+              </div>
 
-        <div className="input-div">
-          <Input
-            placeholder="Enter your Address"
-            prefix={<Icon type="shop" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            name="address"
-            onChange={onChangeInput}
-            ref={(node) => (this.address = node)}
-          />
-        </div>
+              <div className="input-div">
+                <Input
+                  placeholder="Enter your Address"
+                  prefix={
+                    <Icon type="shop" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                  name="address"
+                  onChange={onChangeInput}
+                  ref={(node) => (this.address = node)}
+                />
+              </div>
 
-        <div className="input-div">
-          <InputGroup>
-            <Col span={12}>
-              <DatePicker
-                placeholder="Enter birth date"
-                style={{ width: '100%' }}
-                onChange={this.onChangeHandler}
-                format="M/DD/YYYY"
-                ref={(node) => (this.birthday = node)}
-              />
-            </Col>
+              <div className="input-div">
+                <InputGroup>
+                  <Col span={12}>
+                    <DatePicker
+                      placeholder="Enter birth date"
+                      style={{ width: '100%' }}
+                      onChange={this.onChangeHandler}
+                      format="M/DD/YYYY"
+                      ref={(node) => (this.birthday = node)}
+                    />
+                  </Col>
 
-            <Col span={12}>
-              <Input
-                placeholder="Enter Phone Number"
-                name="phone"
-                onChange={onChangeInput}
-                maxLength={11}
-                ref={(node) => (this.phone = node)}
-              />
-            </Col>
-          </InputGroup>
-        </div>
+                  <Col span={12}>
+                    <Input
+                      placeholder="Enter Phone Number"
+                      name="phone"
+                      onChange={onChangeInput}
+                      maxLength={11}
+                      ref={(node) => (this.phone = node)}
+                    />
+                  </Col>
+                </InputGroup>
+              </div>
 
-        <div className="input-div">
-          <Button
-            loading={loadingBtn}
-            block
-            type="primary"
-            onClick={submitRegistration}
-          >
-            {buttonString}
-          </Button>
-        </div>
+              <div className="input-div">
+                <Button
+                  loading={loadingBtn}
+                  block
+                  type="primary"
+                  onClick={submitRegistration}
+                >
+                  {buttonString}
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <img src={NOTALLOWED_SVG} className="register-svg" alt="" />
+              <Divider>
+                Oops, Registrations are disabled by the admin as of the moment!
+              </Divider>
+            </div>
+          )
+        ) : (
+          <LoadingState>
+            <Icon style={{ fontSize: '3rem' }} type="loading" />
+          </LoadingState>
+        )}
       </StyledDrawer>
     );
   }

@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Col, Row, Badge, Avatar, Tooltip, Divider, Button } from 'antd';
+import {
+  Col,
+  Row,
+  Badge,
+  Avatar,
+  Tooltip,
+  Divider,
+  Button,
+  Switch,
+  Icon,
+} from 'antd';
 import moment from 'moment';
 import { Line } from 'react-chartjs-2';
 import base from '../common/base';
@@ -69,6 +79,11 @@ const StyledDivider = styled(Divider)`
 const DownloadButton = styled(Button)`
   margin-top: 10px;
   float: right;
+`;
+
+const ToggleWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const downloadPDF = (users, data) => {
@@ -170,7 +185,21 @@ export class Dashboard extends Component {
       context: this,
       state: 'users',
     });
+    base.syncState('Settings', {
+      context: this,
+      state: 'settings',
+    });
   }
+
+  toggleRegistration = (status) => {
+    const { settings } = this.state;
+    const newSettings = {
+      ...settings,
+      registration: status,
+    };
+    this.setState({ settings: newSettings });
+    // console.log(this.state);
+  };
 
   componentDidUpdate(prevProps, prevState) {
     const oldCount = Object.keys(prevState.data).length;
@@ -279,6 +308,21 @@ export class Dashboard extends Component {
                     <DataSub>unsolved reports</DataSub>
                   </DataChild>
                 </DataWrapper>
+              </CardInfo>
+              <CardInfo style={{ marginTop: '20px', paddingBottom: '20px' }}>
+                <Header>
+                  <HeaderInfo className="utility font-weight-regular">
+                    Allow Registration
+                  </HeaderInfo>
+                  <ToggleWrapper>
+                    <Switch
+                      checkedChildren={<Icon type="check" />}
+                      unCheckedChildren={<Icon type="close" />}
+                      defaultChecked
+                      onChange={(status) => this.toggleRegistration(status)}
+                    />
+                  </ToggleWrapper>
+                </Header>
               </CardInfo>
             </Row>
           </Col>
