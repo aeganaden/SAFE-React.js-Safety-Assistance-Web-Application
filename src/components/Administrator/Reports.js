@@ -163,7 +163,7 @@ export class Reports extends Component {
                               'MMM DD, YYYY - hh:mm A',
                             )}
                           </StyledHeader>
-                          {this.degreeSwitch(reports[key].degree)}
+                          {/* {this.degreeSwitch(reports[key].degree)} */}
                         </HeaderWrapper>
                         <StyledDivider />
 
@@ -264,7 +264,7 @@ export class Reports extends Component {
                               'MMM DD, YYYY - hh:mm A',
                             )}
                           </StyledHeader>
-                          {this.degreeSwitch(reports[key].degree)}
+                          {/* {this.degreeSwitch(reports[key].degree)} */}
                         </HeaderWrapper>
                         <StyledDivider />
 
@@ -365,7 +365,7 @@ export class Reports extends Component {
                               'MMM DD, YYYY - hh:mm A',
                             )}
                           </StyledHeader>
-                          {this.degreeSwitch(reports[key].degree)}
+                          {/* {this.degreeSwitch(reports[key].degree)} */}
                         </HeaderWrapper>
                         <StyledDivider />
 

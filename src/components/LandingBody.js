@@ -258,6 +258,35 @@ export class LandingBody extends Component {
   birthdayChangeHandler = (dateString) =>
     this.setState({ birthday: dateString });
 
+  validateInputs = (
+    firstname,
+    lastname,
+    password,
+    email,
+    address,
+    birthday,
+    phone,
+  ) => {
+    if (
+      firstname === '' ||
+      lastname === '' ||
+      email === '' ||
+      address === '' ||
+      birthday === '' ||
+      phone === '' ||
+      password === ''
+    ) {
+      return false;
+    }
+    const fullName = firstname + lastname;
+    const isString = fullName.match('/[1-9]/g') === null ? true : false;
+    if (isString) {
+      return false;
+    }
+
+    return true;
+  };
+
   submitRegistration = () => {
     this.setState({ loadingBtn: true });
     const {
@@ -268,15 +297,21 @@ export class LandingBody extends Component {
       address,
       birthday,
       phone,
+      errorObject,
     } = this.state;
+
     if (
-      firstname !== '' ||
-      lastname !== '' ||
-      email !== '' ||
-      address !== '' ||
-      birthday !== '' ||
-      phone !== ''
+      this.validateInputs(
+        firstname,
+        lastname,
+        password,
+        email,
+        address,
+        birthday,
+        phone,
+      )
     ) {
+      // alert('succes');
       secondaryApp
         .auth()
         .createUserWithEmailAndPassword(email, password)
@@ -320,10 +355,11 @@ export class LandingBody extends Component {
         });
     } else {
       showNotification({
-        title: 'Oops, you missed something',
-        message: 'Please fill-up all necessary fields',
+        title: 'Oops, there is an error on your form!',
+        message: 'Either you missed a field, or there is a NUMBER on your name',
         type: 'warning',
       });
+      // console.log(errorObject);
       this.setState({
         loadingBtn: false,
       });

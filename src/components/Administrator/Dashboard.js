@@ -5,6 +5,8 @@ import moment from 'moment';
 import { Line } from 'react-chartjs-2';
 import base from '../common/base';
 import jsPDF from 'jspdf';
+import mp3File from '../../assets/notification.mp3';
+import { Howl, Howler } from 'howler';
 
 const Main = styled.div`
   canvas {
@@ -102,8 +104,22 @@ export class Dashboard extends Component {
     });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const oldCount = Object.keys(prevState.data).length;
+    const newCount = Object.keys(this.state.data).length;
+    if (oldCount !== 0) {
+      if (oldCount < newCount) {
+        var sound = new Howl({
+          src: mp3File,
+        });
+        sound.play();
+      }
+    }
+  }
+
   render() {
     const { data } = this.state;
+
     const reportsToday = Object.keys(data).filter(
       (key) =>
         moment(data[key].report_date).isSame(moment(), 'day') &&
