@@ -198,14 +198,15 @@ export class Reports extends Component {
           visible={this.state.visible}
           onCancel={this.handleCancel}
           footer={[
-            <Button type="primary" onClick={this.handleCancel}>
+            <Button type="primary" key={1} onClick={this.handleCancel}>
               Close
             </Button>,
           ]}
         >
           <Spin spinning={loading}>
             <Carousel>
-              {urlArr.length !== 0 && urlArr.map((url) => <img src={url} />)}
+              {urlArr.length !== 0 &&
+                urlArr.map((url, index) => <img key={index} src={url} />)}
             </Carousel>
           </Spin>
         </StyledModal>
