@@ -1,10 +1,24 @@
 import React, { Component } from 'react';
-import { Tabs, Card, Button, Divider, Row, Col, Badge, Icon, Tag } from 'antd';
+import {
+  Tabs,
+  Card,
+  Button,
+  Divider,
+  Row,
+  Col,
+  Badge,
+  Icon,
+  Tag,
+  Modal,
+  Carousel,
+  Spin,
+} from 'antd';
 import styled from 'styled-components';
 import moment from 'moment';
 import Header from './Header';
 import base from '../common/base';
 import { showNotification } from '../common/helpers';
+import { firebaseApp } from '../common/base';
 
 const { TabPane } = Tabs;
 
@@ -47,10 +61,32 @@ const ReportTypeWrapper = styled.div`
   }
 `;
 
+const StyledModal = styled(Modal)`
+  .ant-modal-body {
+    padding: 0;
+  }
+`;
+
+const fetchImage = async (key) => {
+  let returnURL = '';
+  await firebaseApp
+    .storage()
+    .ref(`report_image/${key}.jpg`)
+    .getDownloadURL()
+    .then((url) => {
+      returnURL = url;
+    });
+
+  return returnURL;
+};
+
 export class Reports extends Component {
   state = {
     reports: [],
     users: [],
+    visible: false,
+    urlArr: [],
+    loading: false,
   };
 
   componentWillMount() {
@@ -128,13 +164,51 @@ export class Reports extends Component {
     });
   };
 
+  showModalImages = async (key) => {
+    this.setState({
+      visible: true,
+      loading: true,
+    });
+    // console.log(key);
+    const urlArr = [];
+    await fetchImage(`${key}_1`)
+      .then((url) => urlArr.push(url))
+      .catch((e) => console.log(e));
+    await fetchImage(`${key}_2`)
+      .then((url) => urlArr.push(url))
+      .catch((e) => console.log(e));
+
+    this.setState({ urlArr, loading: false });
+  };
+
+  handleCancel = (e) => {
+    this.setState({
+      visible: false,
+    });
+  };
+
   render() {
-    const { reports, users } = this.state;
+    const { reports, users, urlArr, loading } = this.state;
     let user = {};
     let otherType = '';
-    console.log(reports);
     return (
       <div>
+        <StyledModal
+          title="Image Report"
+          visible={this.state.visible}
+          onCancel={this.handleCancel}
+          footer={[
+            <Button type="primary" onClick={this.handleCancel}>
+              Close
+            </Button>,
+          ]}
+        >
+          <Spin spinning={loading}>
+            <Carousel>
+              {urlArr.length !== 0 && urlArr.map((url) => <img src={url} />)}
+            </Carousel>
+          </Spin>
+        </StyledModal>
         <Header name="REPORTS" />
         <Tabs defaultActiveKey="1" onChange={() => {}}>
           <TabPane
@@ -157,6 +231,7 @@ export class Reports extends Component {
                   return (
                     <Col span={8} key={index} style={{ marginTop: '10px' }}>
                       <StyledCard>
+                        {/* add carousel here */}
                         <HeaderWrapper>
                           <StyledHeader>
                             {moment(reports[key].report_date).format(
@@ -225,12 +300,20 @@ export class Reports extends Component {
                             "{otherType}"
                           </ReportDescription>
                         </ReportTypeWrapper>
+
                         <StyledButton
                           type="primary"
                           block
                           onClick={() => this.respondToReport(key)}
                         >
                           RESPOND
+                        </StyledButton>
+                        <StyledButton
+                          type="secondary"
+                          block
+                          onClick={() => this.showModalImages(key)}
+                        >
+                          VIEW IMAGE
                         </StyledButton>
                       </StyledCard>
                     </Col>
