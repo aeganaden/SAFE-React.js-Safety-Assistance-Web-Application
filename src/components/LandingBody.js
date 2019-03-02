@@ -15,7 +15,7 @@ import PHONE_SVG from '../assets/vectors/phone_pin.svg';
 import COMMUNITY_SVG from '../assets/vectors/community.svg';
 import LOGO_PNG from '../logo.png';
 import APK from '../assets/download-apk.png';
-import APK_FILE from '../assets/download-apk.png';
+import APK_FILE from '../assets/SAFE_v3.4.3.apk';
 
 const keyframe_rotate_logo = keyframes`
 from {
@@ -179,15 +179,7 @@ const ThirdPanelMobile = styled.div`
   }
 `;
 
-const ThirdPanelStyledBG = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: flex-end !important;
-
-  img {
-    padding-bottom: 150px;
-  }
-
+const ThirdPanelStyledBG = styled.div` 
   /* Table Portrait */
   @media all and (min-width: 768px) and (max-width: 1024px) {
     display: none;
@@ -540,18 +532,7 @@ export class LandingBody extends Component {
             </p>
           </SecondPanelMobile>
         </Panel>
-        <ThirdPanelStyledBG style={thirdPanelStyle}>
-          <a href={APK_FILE} download="SAFE.apk">
-            <img
-              src={APK}
-              style={{
-                width: '15rem',
-                paddingTop: '2rem',
-                zIndex: '999999 !important',
-              }}
-            />
-          </a>
-        </ThirdPanelStyledBG>
+        <ThirdPanelStyledBG style={thirdPanelStyle}/>
         <Panel id="features-panel">
           <ThirdPanelWrapper>
             <div>
@@ -581,6 +562,16 @@ export class LandingBody extends Component {
                 • Embedded with security features that will ensure the user's
                 data security.
               </p>
+               <a href={APK_FILE} download="SAFE.apk">
+                <img
+                  src={APK}
+                  style={{
+                    width: '15rem',
+                    paddingTop: '2rem',
+                    zIndex: '999999 !important',
+                  }}
+                />
+              </a>
             </div>
           </ThirdPanelWrapper>
           <ThirdPanelMobile>
