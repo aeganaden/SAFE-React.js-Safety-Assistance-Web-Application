@@ -12,6 +12,8 @@ import {
   Modal,
   Carousel,
   Spin,
+  Popconfirm,
+  message,
 } from 'antd';
 import styled from 'styled-components';
 import moment from 'moment';
@@ -90,6 +92,8 @@ export class Reports extends Component {
   };
 
   componentWillMount() {
+    // Don't make Reports state as array due to syncstate problem
+    // it will create new children in firebase with index as key
     base.syncState(`Reports`, {
       context: this,
       state: 'reports',
@@ -159,7 +163,7 @@ export class Reports extends Component {
 
     showNotification({
       title: 'Good Job!',
-      message: 'This report has now been solved and will be removed',
+      message: 'This report has now been solved and will be archived',
       type: 'success',
     });
   };
@@ -189,6 +193,7 @@ export class Reports extends Component {
 
   render() {
     const { reports, users, urlArr, loading } = this.state;
+    console.table(reports);
     let user = {};
     let otherType = '';
     return (
@@ -205,8 +210,13 @@ export class Reports extends Component {
         >
           <Spin spinning={loading}>
             <Carousel>
-              {urlArr.length !== 0 &&
-                urlArr.map((url, index) => <img key={index} src={url} />)}
+              {urlArr.length !== 0
+                ? urlArr.map((url, index) => <img key={index} src={url} />)
+                : loading === false && (
+                    <center>
+                      <h3> No Image Available</h3>
+                    </center>
+                  )}
             </Carousel>
           </Spin>
         </StyledModal>
@@ -245,7 +255,9 @@ export class Reports extends Component {
 
                         <StyledTitle>
                           <Icon type="environment" theme="outlined" />{' '}
-                          {user !== undefined ? user.address : ''}
+                          {!reports[key].incident_place
+                            ? 'Not Defined'
+                            : reports[key].incident_place}
                         </StyledTitle>
                         <StyledTitle>
                           <Icon type="user" theme="outlined" />{' '}
@@ -302,13 +314,17 @@ export class Reports extends Component {
                           </ReportDescription>
                         </ReportTypeWrapper>
 
-                        <StyledButton
-                          type="primary"
-                          block
-                          onClick={() => this.respondToReport(key)}
+                        <Popconfirm
+                          title="Are you sure to Respond to this Emergency?"
+                          onConfirm={() => this.respondToReport(key)}
+                          onCancel={() => message.info('Response Cancelled')}
+                          okText="Respond"
+                          cancelText="Cancel"
                         >
-                          RESPOND
-                        </StyledButton>
+                          <StyledButton type="primary" block>
+                            RESPOND
+                          </StyledButton>
+                        </Popconfirm>
                         <StyledButton
                           type="secondary"
                           block
@@ -354,7 +370,9 @@ export class Reports extends Component {
 
                         <StyledTitle>
                           <Icon type="environment" theme="outlined" />{' '}
-                          {user !== undefined ? user.address : ''}
+                          {!reports[key].incident_place
+                            ? 'Not Defined'
+                            : reports[key].incident_place}
                         </StyledTitle>
                         <StyledTitle>
                           <Icon type="user" theme="outlined" />{' '}
@@ -410,13 +428,16 @@ export class Reports extends Component {
                               }
                             })}
                         </ReportTypeWrapper>
-                        <StyledButton
-                          type="primary"
-                          block
-                          onClick={() => this.solveReport(key)}
+                        <Popconfirm
+                          title="Sure? Are you done with this Report?"
+                          onConfirm={() => this.solveReport(key)}
+                          okText="Yes"
+                          cancelText="Cancel"
                         >
-                          SOLVED (DONE)
-                        </StyledButton>
+                          <StyledButton type="primary" block>
+                            SOLVED (DONE)
+                          </StyledButton>
+                        </Popconfirm>
                       </StyledCard>
                     </Col>
                   );
@@ -449,13 +470,14 @@ export class Reports extends Component {
                               'MMM DD, YYYY - hh:mm A',
                             )}
                           </StyledHeader>
-                          {/* {this.degreeSwitch(reports[key].degree)} */}
                         </HeaderWrapper>
                         <StyledDivider />
 
                         <StyledTitle>
                           <Icon type="environment" theme="outlined" />{' '}
-                          {user !== undefined ? user.address : ''}
+                          {!reports[key].incident_place
+                            ? 'Not Defined'
+                            : reports[key].incident_place}
                         </StyledTitle>
                         <StyledTitle>
                           <Icon type="user" theme="outlined" />{' '}
