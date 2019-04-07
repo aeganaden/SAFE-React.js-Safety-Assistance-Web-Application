@@ -12,6 +12,7 @@ import {
   Col,
   DatePicker,
   Divider,
+  Tooltip,
 } from 'antd';
 import REGISTER_SVG from '../assets/vectors/register.svg';
 import NOTALLOWED_SVG from '../assets/vectors/not_allowed.svg';
@@ -113,6 +114,11 @@ class RegistrationDrawer extends Component {
                       name="firstname"
                       onChange={onChangeInput}
                       ref={(node) => (this.firstname = node)}
+                      suffix={
+                        <Tooltip title="Required Field">
+                          <span style={{ color: 'red' }}>*</span>
+                        </Tooltip>
+                      }
                     />
                   </Col>
 
@@ -122,6 +128,11 @@ class RegistrationDrawer extends Component {
                       name="lastname"
                       onChange={onChangeInput}
                       ref={(node) => (this.lastname = node)}
+                      suffix={
+                        <Tooltip title="Required Field">
+                          <span style={{ color: 'red' }}>*</span>
+                        </Tooltip>
+                      }
                     />
                   </Col>
                 </InputGroup>
@@ -136,6 +147,12 @@ class RegistrationDrawer extends Component {
                   name="email"
                   onChange={onChangeInput}
                   ref={(node) => (this.email = node)}
+                  suffix={
+                    <Tooltip title="Required Field">
+                      {' '}
+                      <span style={{ color: 'red' }}>*</span>
+                    </Tooltip>
+                  }
                 />
               </div>
 
@@ -149,6 +166,12 @@ class RegistrationDrawer extends Component {
                   type="password"
                   onChange={onChangeInput}
                   ref={(node) => (this.password = node)}
+                  suffix={
+                    <Tooltip title="Required Field">
+                      {' '}
+                      <span style={{ color: 'red' }}>*</span>
+                    </Tooltip>
+                  }
                 />
               </div>
 
@@ -161,6 +184,12 @@ class RegistrationDrawer extends Component {
                   name="address"
                   onChange={onChangeInput}
                   ref={(node) => (this.address = node)}
+                  suffix={
+                    <Tooltip title="Required Field">
+                      {' '}
+                      <span style={{ color: 'red' }}>*</span>
+                    </Tooltip>
+                  }
                 />
               </div>
 
@@ -183,6 +212,11 @@ class RegistrationDrawer extends Component {
                       onChange={onChangeInput}
                       maxLength={11}
                       ref={(node) => (this.phone = node)}
+                      suffix={
+                        <Tooltip title="Required Field">
+                          <span style={{ color: 'red' }}>*</span>
+                        </Tooltip>
+                      }
                     />
                   </Col>
                 </InputGroup>
