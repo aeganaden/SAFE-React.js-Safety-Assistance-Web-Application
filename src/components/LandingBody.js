@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Avatar, Button, BackTop } from 'antd';
+import { Avatar, Button, BackTop, message } from 'antd';
 import { withRouter } from 'react-router';
 
 import RegistrationDrawer from '../components/RegistrationDrawer';
@@ -179,7 +179,7 @@ const ThirdPanelMobile = styled.div`
   }
 `;
 
-const ThirdPanelStyledBG = styled.div` 
+const ThirdPanelStyledBG = styled.div`
   /* Table Portrait */
   @media all and (min-width: 768px) and (max-width: 1024px) {
     display: none;
@@ -244,6 +244,19 @@ export class LandingBody extends Component {
   };
 
   onChangeInput = (e) => {
+    if (e.target.name === 'firstname' || e.target.name === 'lastname') {
+      const pattern = /^[a-zA-Z]*$/;
+      if (!pattern.test(e.target.value)) {
+        message.warning('Numbers are not allowed in name.');
+      }
+    }
+
+    if (e.target.name === 'phone') {
+      const pattern = /^[1-9]*$/;
+      if (!pattern.test(e.target.value)) {
+        message.warning('Phone number must not contain letters');
+      }
+    }
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -271,8 +284,14 @@ export class LandingBody extends Component {
       return false;
     }
     const fullName = firstname + lastname;
-    const isString = fullName.match('/[1-9]/g') === null ? true : false;
-    if (isString) {
+    const pattern = /^[1-9]*$/;
+    const namePattern = /^[a-zA-Z]*$/;
+    console.log(firstname, lastname, password, email, address, birthday, phone);
+    console.log(!pattern.test(fullName));
+    if (!namePattern.test(fullName)) {
+      return false;
+    }
+    if (!pattern.test(phone)) {
       return false;
     }
 
@@ -532,7 +551,7 @@ export class LandingBody extends Component {
             </p>
           </SecondPanelMobile>
         </Panel>
-        <ThirdPanelStyledBG style={thirdPanelStyle}/>
+        <ThirdPanelStyledBG style={thirdPanelStyle} />
         <Panel id="features-panel">
           <ThirdPanelWrapper>
             <div>
@@ -562,7 +581,7 @@ export class LandingBody extends Component {
                 • Embedded with security features that will ensure the user's
                 data security.
               </p>
-               <a href={APK_FILE} download="SAFE.apk">
+              <a href={APK_FILE} download="SAFE.apk">
                 <img
                   src={APK}
                   style={{
